@@ -1,0 +1,15 @@
+.card {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    height: 300px;
+}
+
+#lunchRoom{
+    height: 500px;
+    background-color: white;
+}
+
+#saladBar {
+    height: 500px;
+    background-color: brown;
+}
