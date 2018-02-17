@@ -92,7 +92,8 @@ $(player).attr("id", "");
 
 });
 
-  
+//   make an array out of the objects.  use the array position to link the arry to the div.
+// for scoring you can do a loop on all array but skip the one that is player with an if or a !===
 
 
 
