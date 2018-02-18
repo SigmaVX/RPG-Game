@@ -1,43 +1,46 @@
 // Create Objects For Salad Bar Warriors
 var saladbarWarriors = [
-    grinder = {name: "Hoagies", health: 100, attack:5, counterAttack: 5},
-    chopSuey = {name: "Chop Suey", health: 100, attack:5, counterAttack: 5},
-    beans = {name: "Navy Beans", health: 100, attack:5, counterAttack: 5},
-    meatloaf = {name: "Meatloaf", health: 100, attack:5, counterAttack: 5},
-    sloppyJoe = {name: "Sloppy Joe", health: 100, attack:5, counterAttack: 5}];
+    grinder = {name: "Hoagies", health: 110, attack:3, counterAttack: 6},
+    chopSuey = {name: "Chop Suey", health: 90, attack:5, counterAttack: 8},
+    beans = {name: "Navy Beans", health: 50, attack:10, counterAttack: 14},
+    meatloaf = {name: "Meatloaf", health: 120, attack:5, counterAttack: 12},
+    sloppyJoe = {name: "Sloppy Joe", health: 100, attack:5, counterAttack: 10}];
 
 
 // DOM Elements
 var saladBarHTML = document.getElementById("saladBar");
 var lunchRoomHTML = document.getElementById("lunchRoom");
 
+// Dynamic Text Shown To Users
+var message = document.getElementById("message");
+
 // Array Holding Competitors
 var currentOpponents = []; 
 
-
-// The Card For the Player Selected
+// The Card For The Player Selected
 var playerCard;
 
-// Player Cards Location In Cards Array
+// Player Card's Location In Array
 var playerArraySpot;
 
 // The Oject Connected To The Player Card
-var player;
+var playerObject;
 
-var target;
+// The Card For The Target Selected
+var targetCard;
+
+// Target Card's Location In Array
+var targetArraySpot;
+
+// The Oject Connected To The Target Card
+var targetObject;
 
 // To Detect If Players Are In The Lunchroom
 var picked;
 
-// Dynamic Text Shown To Users
-var message = document.getElementById("message");
-
 // Player Bonus Attack Power
 var bonusAttack = 0;
 
-
-// var newDiv = $("<div>").html(x.name + "<br>" + "Health: " + x.health 
-// + "<br>" + "Attack: " + x.attack + "<br>" + "Counter: " + x.counterAttack);
 
 
 
@@ -48,6 +51,7 @@ function cardCreate(x, y, z, file, spot, healthID ){
     $(newDiv).attr("id", y );
     $(newDiv).attr("arraySpot", spot );
     $("#saladBar").append(newDiv);
+    
     // Add Metrics
     var name = $("<div>").html(x.name);
         $(name).attr("class", "name");
@@ -93,10 +97,8 @@ cardCreate(sloppyJoe, "sloppyJoe", "sloppyJoeBtn", "./assets/images/sloppyjoe2.j
 picked = false;
 bonusAttack = 0;
 currentOpponents = [];
-$(player).attr("id", "");
-
+$(playerCard).attr("id", "");
 $(message).html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
-
 
  // Select The Player
  $(".selectBtn").on("click", function() {
@@ -110,8 +112,8 @@ $(message).html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
         // This Assigns The Object To Player 
         playerArraySpot = parseInt($(playerCard).attr("arraySpot"));
         console.log("Player Object Array Spot: " + playerArraySpot );
-        player = Object.assign({}, saladbarWarriors[playerArraySpot] );
-        console.log(player.name);
+        playerObject = Object.assign({}, saladbarWarriors[playerArraySpot] );
+        console.log(playerObject.name);
 
         // Shows Attack and Hides Select Button
         $(playerCard).attr("id", "player");
@@ -120,7 +122,6 @@ $(message).html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
 
         // Builds Competitor Array With Loop - Just Adding Name
         for ( var i = 0; i < saladbarWarriors.length; i++){
-            // currentOpponentsp.push(saladbarWarriors[i]);
             if (i !== playerArraySpot) {
                 currentOpponents.push(saladbarWarriors[i].name);
              }    
@@ -131,8 +132,8 @@ $(message).html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
     else {
         // Do Nothing
         console.log("a: Nothing To Do");
-        alert("Two Men Enter But Only One Can Be In The Lunchroom")
-    }   
+        alert("Two Men Enter But Only One Can Be In The Lunchroom!")
+    } 
 });
 
 // Attack Function
@@ -140,57 +141,75 @@ $(".attackBtn").on("click", function() {
     targetCard = $(this).parent(); 
     console.log(targetCard);
 
-    // This Assigns The Object To Target Card
-    var arraySpot = parseInt($(targetCard).attr("arraySpot"));
-    console.log("Target's Array Spot: " + arraySpot );
-    target = Object.assign({}, saladbarWarriors[arraySpot] );
-    console.log("Target Name: " + target.name);
+    // This Assigns The Object To The Target Card
+    targetArraySpot = parseInt($(targetCard).attr("arraySpot"));
+    console.log("Target's Array Spot: " + targetArraySpot );
+    targetObject = Object.assign({}, saladbarWarriors[targetArraySpot]);
+    
+    console.log("Target Name: " + targetObject.name);
 
     // Assigns Damage To Players
-    console.log("Target Health Before Attack: " + target.health);
-    console.log("Player Health Before Attack: " + player.health);    
-    console.log("Player Attack Before Attack: " + player.attack);
+    console.log("Target Health Before Attack: " + targetObject.health);
+    console.log("Player Health Before Attack: " + playerObject.health);    
+    console.log("Player Attack Before Attack: " + playerObject.attack);
     
-    target.health -= player.attack;
-    // target.health -= bonusAttack;
-    // bonusAttack += player.attack;
-    player.health -= target.counterAttack;
-    
-    console.log("Target Health After Attack: " + target.health);
-    console.log("Player Health After Attack: " + player.health);    
+    targetObject.health -= playerObject.attack;
+    targetObject.health -= bonusAttack;
+    var totalPlayerAttack = playerObject.attack + bonusAttack;
+    console.log("Total Player Attack: " + totalPlayerAttack);
+    playerObject.health -= targetObject.counterAttack;
+    // Increases Bonus For Each Attack
+    bonusAttack += playerObject.attack;
+
+    console.log("Target Health After Attack: " + targetObject.health);
+    console.log("Player Health After Attack: " + playerObject.health);    
     console.log("Bonus After Attack: " + bonusAttack); 
+    
+    // Sends The Updated Values Back To The Root Object - IMPORTANT!  
+    saladbarWarriors[targetArraySpot] = targetObject;
+    saladbarWarriors[playerArraySpot] = playerObject;
+
+    // Update Message Box
+    $(message).html(playerObject.name + " Attacks " + targetObject.name + " For " + totalPlayerAttack + "<br>What's You're Next Move?");
+    
 
     // Update HTML
-    $("#grinderHealth").html("Health: " + target.health);
+    for (var i = 0; i < saladbarWarriors.length; i++){
+        $("#grinderHealth" ).html("Health: " + saladbarWarriors[0].health);
+        $("#chopSueyHealth").html("Health: " + saladbarWarriors[1].health);
+        $("#beansHealth").html("Health: " + saladbarWarriors[2].health);
+        $("#meatloafHealth").html("Health: " + saladbarWarriors[3].health);
+        $("#sloppyJoeHealth").html("Health: " + saladbarWarriors[4].health);
+    }
+
+    // Remove Cards With No Health
+    if (targetObject.health < 1) {
+        targetCard.hide();
+        currentOpponents.pop();
+        $(message).html("You Defeated " + targetObject.name);
+        console.log("Opponents Left: " + currentOpponents.length);
+    }
+
+    // Check Win Conditions
+    if (currentOpponents.length < 1){
+        $(message).html("You Win!");
+    }
+    
+    // Check Loss Conditions
+    if (playerObject.health < 1){
+        $(message).html("Game Over <br> You're Dead Meat!")
+        $(".attackBtn").hide();
+    }
 
 
-    // loop through cards to update metrics
-    // for (var i = 0; i < saladbarWarriors.length; i++){
-    // $(".card").html(saladbarWarriors[i].name + "<br>" + "Health: " + saladbarWarriors[i].health 
-    // + "<br>" + "Attack: " + saladbarWarriors[i].attack + "<br>" + "Counter: " + saladbarWarriors[i].counterAttack);
-    // }
+    
+    // <!-- have a game reset -->
+    // <!-- Add audio (optional)
+    
+
+
+
 
 });
 
 
-
-// maybe add ID to person that calls them opponent
-// }
-
-// Counter Attack Function
-
-
-
-
-
-// for scoring you can do a loop on all array but skip the one that is player with an if or a !===
-
-
-    // <!-- display an attack buttons below each opponent person -->
-    // <!-- attack amount increases with each use and reduces oponent HP -->
-    // <!-- display action in message area and update numbers -->
-    // <!-- opponent counter attacks immediately at constant rate-->
-    // <!-- player card done with HP less than zero -->
-    // <!-- game over when all cards are gone -->
-    // <!-- have a game reset -->
-    // <!-- Add audio (optional)
