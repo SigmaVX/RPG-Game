@@ -14,11 +14,20 @@ var lunchRoomHTML = document.getElementById("lunchRoom");
 // Array Holding Competitors
 var currentOpponents = []; 
 
-// To ID Which Oject Is The Player
-var player = "";
+
+// The Card For the Player Selected
+var playerCard;
+
+// Player Cards Location In Cards Array
+var playerArraySpot;
+
+// The Oject Connected To The Player Card
+var player;
+
+var target;
 
 // To Detect If Players Are In The Lunchroom
-var picked = "";
+var picked;
 
 // Dynamic Text Shown To Users
 var message = document.getElementById("message");
@@ -33,7 +42,7 @@ var bonusAttack = 0;
 
 
 // Create & Place Player Cards
-function cardCreate(x, y, z, file, spot ){
+function cardCreate(x, y, z, file, spot, healthID ){
     var newDiv = $("<div>").html("");
     $(newDiv).attr("class", "card col-2 text-center pl-1 pr-1");
     $(newDiv).attr("id", y );
@@ -46,6 +55,7 @@ function cardCreate(x, y, z, file, spot ){
 
     var health = $("<div>").html("Health: " + x.health);
         $(health).attr("class", "health");
+        $(health).attr("id", healthID );
         $(newDiv).append(health);
 
     var attack = $("<div>").html("Attack: " + x.attack);
@@ -72,16 +82,17 @@ function cardCreate(x, y, z, file, spot ){
         $(newDiv).append(selectButton);
 }
 
-cardCreate(grinder, "grinder", "grinderBtn", "./assets/images/hoagie.jpg", 0);
-cardCreate(chopSuey, "chopSuey", "chopSueyBtn", "./assets/images/Chopsuey.png", 1);
-cardCreate(beans, "beans", "beansBtn", "./assets/images/beans.jpg", 2);
-cardCreate(meatloaf, "meatloaf", "meatloafBtn", "./assets/images/meatloaf.jpg", 3);
-cardCreate(sloppyJoe, "sloppyJoe", "sloppyJoeBtn", "./assets/images/sloppyjoe2.jpg", 4);
+cardCreate(grinder, "grinder", "grinderBtn", "./assets/images/hoagie.jpg", 0, "grinderHealth");
+cardCreate(chopSuey, "chopSuey", "chopSueyBtn", "./assets/images/Chopsuey.png", 1, "chopSueyHealth");
+cardCreate(beans, "beans", "beansBtn", "./assets/images/beans.jpg", 2, "beansHealth");
+cardCreate(meatloaf, "meatloaf", "meatloafBtn", "./assets/images/meatloaf.jpg", 3, "meatloafHealth");
+cardCreate(sloppyJoe, "sloppyJoe", "sloppyJoeBtn", "./assets/images/sloppyjoe2.jpg", 4, "sloppyJoeHealth");
 
 
 // Start Of Game | Reset Key Metrics 
 picked = false;
 bonusAttack = 0;
+currentOpponents = [];
 $(player).attr("id", "");
 
 $(message).html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
@@ -92,14 +103,14 @@ $(message).html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
     
     // Check There Are No Other Cards Selected 
     if(picked===false){
-        var playerCard = $(this).parent(); 
+        playerCard = $(this).parent(); 
         $("#lunchRoom").append(playerCard);
         picked = true;
         
         // This Assigns The Object To Player 
-        var arraySpot = parseInt($(playerCard).attr("arraySpot"));
-        console.log("Player Object Array Spot: " + arraySpot );
-        player = Object.assign({}, saladbarWarriors[arraySpot] );
+        playerArraySpot = parseInt($(playerCard).attr("arraySpot"));
+        console.log("Player Object Array Spot: " + playerArraySpot );
+        player = Object.assign({}, saladbarWarriors[playerArraySpot] );
         console.log(player.name);
 
         // Shows Attack and Hides Select Button
@@ -107,14 +118,16 @@ $(message).html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
         $(".selectBtn").hide();
         $(".attackBtn").show();
 
-        // Builds Competitor Array
+        // Builds Competitor Array With Loop - Just Adding Name
         for ( var i = 0; i < saladbarWarriors.length; i++){
-            // console.log(saladbarWarriors[i]);
-            $(currentOpponents).push(i);
-            console.log(currentOpponents);
+            // currentOpponentsp.push(saladbarWarriors[i]);
+            if (i !== playerArraySpot) {
+                currentOpponents.push(saladbarWarriors[i].name);
+             }    
         }
-
+        console.log("Opponents Array: " + currentOpponents);
     }
+    
     else {
         // Do Nothing
         console.log("a: Nothing To Do");
@@ -124,28 +137,32 @@ $(message).html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
 
 // Attack Function
 $(".attackBtn").on("click", function() {
-    var targetCard = $(this).parent(); 
+    targetCard = $(this).parent(); 
     console.log(targetCard);
 
     // This Assigns The Object To Target Card
     var arraySpot = parseInt($(targetCard).attr("arraySpot"));
     console.log("Target's Array Spot: " + arraySpot );
-    targetObject = Object.assign({}, saladbarWarriors[arraySpot] );
-    console.log("Target Name: " + targetObject.name);
+    target = Object.assign({}, saladbarWarriors[arraySpot] );
+    console.log("Target Name: " + target.name);
 
     // Assigns Damage To Players
-    console.log("Target Health Before Attack: " + targetObject.health);
+    console.log("Target Health Before Attack: " + target.health);
     console.log("Player Health Before Attack: " + player.health);    
     console.log("Player Attack Before Attack: " + player.attack);
     
-    targetObject.health -= player.attack;
-    // targetObject.health -= bonusAttack;
+    target.health -= player.attack;
+    // target.health -= bonusAttack;
     // bonusAttack += player.attack;
-    player.health -= targetObject.counterAttack;
+    player.health -= target.counterAttack;
     
-    console.log("Target Health After Attack: " + targetObject.health);
+    console.log("Target Health After Attack: " + target.health);
     console.log("Player Health After Attack: " + player.health);    
     console.log("Bonus After Attack: " + bonusAttack); 
+
+    // Update HTML
+    $("#grinderHealth").html("Health: " + target.health);
+
 
     // loop through cards to update metrics
     // for (var i = 0; i < saladbarWarriors.length; i++){
