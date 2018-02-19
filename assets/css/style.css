@@ -1,15 +1,37 @@
+
+a {
+    text-decoration: none;
+    color: #333333;
+}
+
+img {
+    padding-top:5px;
+}
+
+.btn, footer {
+    background-color: #98D2EB;
+    color: #333333;
+}
+
 .card {
     margin-top: 30px;
     margin-bottom: 30px;
-    height: 400px;
+    height: 350px;
+    background-color:#49392C;
+    color: #B2B1CF;
+    border: 2px solid #B2B1CF;
 }
 
-#lunchRoom{
-    height: 500px;
-    background-color: white;
+.jumbotron{
+    width: 80%;
+    position: relative;
+    top: 60px;
+    margin: 0 auto;
 }
 
-#saladBar {
-    height: 500px;
-    background-color: brown;
+#content {
+    background-image: url("../images/lunch.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    min-height: 100vh;    
 }

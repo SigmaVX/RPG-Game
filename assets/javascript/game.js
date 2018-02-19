@@ -15,6 +15,10 @@ var lunchRoomHTML = document.getElementById("lunchRoom");
 // Dynamic Text Shown To Users
 var message = document.getElementById("message");
 
+// Text Shown Before Start
+var startMessage = "";
+var jumbotron;
+
 // Array Holding Competitors
 var currentOpponents = []; 
 
@@ -103,6 +107,21 @@ var audio = $("<audio>").attr("src", "./assets/audio/Lunchlady Land.mp3")
     });
 
 
+// Start Text Message & Box
+    jumbotron = $("<div>").html("test")
+        $(jumbotron).attr("class", "container jumbotron col-12 text-center");
+        $(jumbotron).attr("id", "jumbotron");
+        $("#content").append(jumbotron);
+
+    startMessage = $("<h2>").html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
+        $(startMessage).attr("class", "col-12 text-center");
+        $(startMessage).attr("id", "startMessage");
+        $(jumbotron).append(startMessage);
+
+
+
+
+
 function startGame(){
 
     // Reset Key Metrics 
@@ -113,6 +132,7 @@ function startGame(){
     $("#saladbar").append(playerCard);
     $("#resetGame").show();
     $("#playGame").hide();
+    $(jumbotron).hide();
     $("#message").html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
     console.log("Opponents Array At Reset: " + currentOpponents.length);
    
