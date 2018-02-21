@@ -4,34 +4,127 @@ a {
     color: #333333;
 }
 
+p {
+    text-align: justify;
+    font-size: 14px;
+    
+}
+footer {
+    background-color: #98D2EB;
+    color: #333333;
+    border-top: 3px solid #49392C;
+}
+
+footer p {
+    text-align: center;
+}
+
+
+h2 {
+    display: block;
+    padding-bottom: 20px;
+}
+
 img {
     padding-top:5px;
 }
 
-.btn, footer {
+.btn {
     background-color: #98D2EB;
     color: #333333;
+    margin-bottom: 5px;
+    border: 2px solid #333333;
+}
+
+.btn:hover {
+    background-color: #555555;
+    color: #98D2EB;
+    margin-bottom: 5px;
+    border: 2px solid #000000;
+}
+
+.attackBtn:hover {
+    background-color: red;
 }
 
 .card {
     margin-top: 30px;
     margin-bottom: 30px;
-    height: 350px;
     background-color:#49392C;
     color: #B2B1CF;
     border: 2px solid #B2B1CF;
 }
 
-.jumbotron{
+#content {
+    background-image: url("../images/lunch.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;    
+}
+
+#infoContent {
+    background-color: #333333;
+    /* min-height: 100vh;     */
+}
+
+#infoarea {    
+    width: 90%;
+    border-radius: 20px;
+    /* position: relative; */
+    top: 30px;
+    margin: 65px auto;
+    padding: 30px;
+    background-color: #B2B1CF;
+    color: #49392C;
+    z-index: 1;
+}
+
+#infostats {
+    text-align: center;
+}
+
+#infoarea h2 {
+    display: block;
+    padding-bottom: 0px;
+}
+
+#infoarea p{
+    margin-bottom: 10px;
+}
+
+#jumbotron {
     width: 80%;
     position: relative;
     top: 60px;
     margin: 0 auto;
+    padding-bottom: 50px;
+    background-color: #B2B1CF;
+    color: #49392C;
 }
 
-#content {
-    background-image: url("../images/lunch.jpg");
-    background-size: 100%;
-    background-repeat: no-repeat;
-    min-height: 100vh;    
+#jumboMessage {
+    text-transform: capitalize;
+    
+} 
+
+#message {
+    font-size: 30px;
+    text-transform: capitalize;
+    background-color: #B2B1CF;
+    font-weight: 700;
+    color: #49392C;
+    width: 80%;
+    padding-top: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
 }
+
+#playGame, #resetGame, #infoButton, #gamereturn {
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 250px;
+    margin-top: 10px; 
+}
+
+

@@ -2,11 +2,11 @@ $( document ).ready(function() {
 
 // Create Objects For Salad Bar Warriors
 var saladbarWarriors = [
-    grinder = {name: "Hoagies", health: 100, attack:3, counterAttack: 5},
-    chopSuey = {name: "Chop Suey", health: 90, attack:5, counterAttack: 7},
-    beans = {name: "Navy Beans", health: 50, attack:10, counterAttack: 8},
-    meatloaf = {name: "Meatloaf", health: 120, attack:5, counterAttack: 6},
-    sloppyJoe = {name: "Sloppy Joe", health: 110, attack:8, counterAttack: 4}];
+    grinder = {name: "Hoagies", health: 100, attack:6, counterAttack: 10},
+    chopSuey = {name: "Chop Suey", health: 90, attack:7, counterAttack: 7},
+    beans = {name: "Navy Beans", health: 50, attack:10, counterAttack: 15},
+    meatloaf = {name: "Meatloaf", health: 150, attack:5, counterAttack: 8},
+    sloppyJoe = {name: "Sloppy Joe", health: 110, attack:8, counterAttack: 12}];
 
 // DOM Elements
 var saladBarHTML = document.getElementById("saladBar");
@@ -17,7 +17,6 @@ var message = document.getElementById("message");
 
 // Text Shown Before Start
 var startMessage = "";
-var jumbotron;
 
 // Array Holding Competitors
 var currentOpponents = []; 
@@ -48,35 +47,52 @@ var bonusAttack = 0;
 
 
 // Create Header Section
-var instructions = $("<div>").html("Instructions");
-    $(instructions).attr("class", "btn col-3");
-    $("#header").append(instructions);
+var playAudio = $("<img>");
+    $(playAudio).attr("class", "icons img-fluid ");
+    $(playAudio).attr("id", "playAudio");
+    $(playAudio).attr("src", "./assets/images/play.png");
+    $("#header").append(playAudio);
+
+var pauseAudio = $("<img>");
+    $(pauseAudio).attr("class", "icons img-fluid");
+    $(pauseAudio).attr("id", "pauseAudio");
+    $(pauseAudio).attr("src", "./assets/images/pause.png");
+    $("#header").append(pauseAudio);
+
+var messageRow = $("<div>").html("");
+    $(messageRow).attr("class", "col-12 text-center");
+    $(messageRow).attr("id", "message");
+    $("#header").append(messageRow);
+    $(messageRow).hide();
+
+
+// Start Text Message & Box
+var jumbotron = $("<div>");
+    $(jumbotron).attr("class", "container jumbotron col-12 text-center");
+    $(jumbotron).attr("id", "jumbotron");
+    $("#content").append(jumbotron);
+
+var jumboMessage = $("<h2>").html("A long time ago in a Salad Bar Far Far Away. . .<br>")
+    $(jumboMessage).attr("class", "col-12 text-center");
+    $(jumboMessage).attr("id", "jumboMessage");
+    $(jumbotron).append(jumboMessage);
 
 var playGame = $("<div>").html("Play Game");
     $(playGame).attr("class", "btn col-3");
     $(playGame).attr("id", "playGame");
-    $("#header").append(playGame);    
+    $(jumbotron).append(playGame);    
 
 var resetGame = $("<div>").html("Reset Game");
     $(resetGame).attr("class", "btn col-3");
     $(resetGame).attr("id", "resetGame");
-    $("#header").append(resetGame);
+    $(jumbotron).append(resetGame);
     $(resetGame).hide();
 
-var playAudio = $("<div>").html("Play Audio");
-    $(playAudio).attr("class", "btn col-3");
-    $(playAudio).attr("id", "playAudio");
-    $("#header").append(playAudio);
-
-var pauseAudio = $("<div>").html("Pause Audio");
-    $(pauseAudio).attr("class", "btn col-3");
-    $(pauseAudio).attr("id", "pauseAudio");
-    $("#header").append(pauseAudio);
-
-var messageRow = $("<div>").html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
-    $(messageRow).attr("class", "col-12 text-center");
-    $(messageRow).attr("id", "message");
-    $("#header").append(messageRow);
+var infoButton = $("<a>").html("Instructions");
+    $(infoButton).attr("class", "btn col-3 ml-2");
+    $(infoButton).attr("id", "infoButton");
+    $(infoButton).attr("href", "info.html")
+    $(jumbotron).append(infoButton);
 
 
 // Play and Pause Audio - Is Not Native To JQ
@@ -88,6 +104,7 @@ var audio = $("<audio>").attr("src", "./assets/audio/Lunchlady Land.mp3")
 
     $("#playAudio").on("click", function() {
         $("audio").get(0).play();
+        document.getElementById("audio").volume = 0.95;
         // Atl Would Be - document.getElementById("audio").play();
     });
 
@@ -106,56 +123,74 @@ var audio = $("<audio>").attr("src", "./assets/audio/Lunchlady Land.mp3")
         startGame();
     });
 
+// Info Box - Instructions
+    var infobox = $("<div>");
+    $(infobox).attr("class", "text-center");
+    $(infobox).attr("id", "infobox");
+    $("#infoarea").append(infobox);
+    
+    var heading = $("<h1>").html("Instructions");
+    $(infobox).append(heading);
+    
+    var text = $("<p>").html("All is not well in the inter-galactic salad bar.  The prepared foods are feed up and all-out war is about to break out.  Pick your food and destroy all that would stand between you and your hunger. Choose wisely as each time you attack another food item they will counter attack.  Will you be the last item standing?  Start the game by selecting your player card.  Then attack the opposing cards. Each attack builds your attack bonus and helps to reduce your opponent's health. However, each time you attack you will be counter-attacked. Last card remaining wins!");
+    $(infobox).append(text);
 
-// Start Text Message & Box
-    jumbotron = $("<div>").html("test")
-        $(jumbotron).attr("class", "container jumbotron col-12 text-center");
-        $(jumbotron).attr("id", "jumbotron");
-        $("#content").append(jumbotron);
+    var subheading = $("<h2>").html("Food Stats");
+    $(infobox).append(subheading);
+    
+    var yetmoretext = $("<p>").html("<strong>Health</strong> - The Amount of Damage The Item Can Sustain<br><strong>Attack</strong> - The Amount of Damage The Item Can Deal To Others<br><strong>Counter</strong> - The Amount of Damage You Will Take If You Attack The Item");
+    $(yetmoretext).attr("id", "infostats");
+    $(infobox).append(yetmoretext);
 
-    startMessage = $("<h2>").html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
-        $(startMessage).attr("class", "col-12 text-center");
-        $(startMessage).attr("id", "startMessage");
-        $(jumbotron).append(startMessage);
+    var subheadingtwo = $("<h3>").html("The Real Deal");
+    $(infobox).append(subheadingtwo);
+
+    var evenmoretext = $("<p>").html("This game showcases DOM manipulation and logic using jQuery as there is minimal use of HTML.  Almost everything you see here is generated by the jQuery and manipulated using functions. The code is scalable and set up using an array to hold objects.  Those objects create the cards and HTML while event listeners take the data and update the original objects and array.");
+    $(infobox).append(evenmoretext);
+
+    var gamereturn = $("<a>").html("Return To Game");
+    $(gamereturn).attr("class", "btn");
+    $(gamereturn).attr("id", "gamereturn");
+    $(gamereturn).attr("href", "./index.html");
+    $(infobox).append(gamereturn);
 
 
-
-
-
+// Game Function
 function startGame(){
 
     // Reset Key Metrics 
-    picked = false;
-    bonusAttack = 0;
-    currentOpponents = [];
-    $(playerCard).attr("id", "");
-    $("#saladbar").append(playerCard);
-    $("#resetGame").show();
-    $("#playGame").hide();
-    $(jumbotron).hide();
-    $("#message").html("You Ready To Rumble? <br> Pick Your Salad Bar Warrior!")
-    console.log("Opponents Array At Reset: " + currentOpponents.length);
+        picked = false;
+        bonusAttack = 0;
+        currentOpponents = [];
+        $(playerCard).attr("id", "");
+        $("#saladbar").append(playerCard);
+        $("#resetGame").show();
+        $("#playGame").hide();
+        $(jumbotron).hide();
+        $(messageRow).show();
+        $("#message").html("Produce Is Ready For A Rumble. <br> Pick Your Salad Bar Warrior!")
+        console.log("Opponents Array At Reset: " + currentOpponents.length);
    
     var saladbarWarriors = [
-        grinder = {name: "Hoagies", health: 100, attack:3, counterAttack: 5},
-        chopSuey = {name: "Chop Suey", health: 90, attack:5, counterAttack: 7},
-        beans = {name: "Navy Beans", health: 50, attack:10, counterAttack: 8},
-        meatloaf = {name: "Meatloaf", health: 120, attack:5, counterAttack: 6},
-        sloppyJoe = {name: "Sloppy Joe", health: 110, attack:8, counterAttack: 4}
+        grinder = {name: "Hoagies", health: 100, attack:6, counterAttack: 10},
+        chopSuey = {name: "Chop Suey", health: 90, attack:7, counterAttack: 7},
+        beans = {name: "Navy Beans", health: 50, attack:10, counterAttack: 15},
+        meatloaf = {name: "Meatloaf", health: 150, attack:5, counterAttack: 8},
+        sloppyJoe = {name: "Sloppy Joe", health: 110, attack:8, counterAttack: 12}
     ];
 
     console.log("Array Objects At Reset: " + saladbarWarriors);
 
     // Create & Place Player Cards
-function cardCreate(x, y, z, file, spot, healthID ){
-    var newDiv = $("<div>").html("");
-    $(newDiv).attr("class", "card col-2 text-center pl-1 pr-1");
-    $(newDiv).attr("id", y );
-    $(newDiv).attr("arraySpot", spot );
-    $("#saladBar").append(newDiv);
-    
+    function cardCreate(x, y, z, file, spot, healthID ){
+        var newDiv = $("<div>").html("");
+        $(newDiv).attr("class", "card col-2 text-center pl-1 pr-1");
+        $(newDiv).attr("id", y );
+        $(newDiv).attr("arraySpot", spot );
+        $("#saladBar").append(newDiv);
+        
     // Add Metrics
-    var name = $("<div>").html(x.name);
+    var name = $("<div>").html("<strong>" + x.name + "</strong>");
         $(name).attr("class", "name");
         $(newDiv).append(name);
 
@@ -174,7 +209,7 @@ function cardCreate(x, y, z, file, spot, healthID ){
 
     // Add Image
     var image = $("<img>").attr("src", file);
-        $(image).attr("class", "img-fluid rounded");
+        $(image).attr("class", "img-fluid");
         $(newDiv).prepend(image);
 
     // Add Buttons
@@ -182,6 +217,7 @@ function cardCreate(x, y, z, file, spot, healthID ){
         $(attackButton).html("Attack");
         $(attackButton).hide();
         $(newDiv).append(attackButton);
+        
     var selectButton = $("<button>").attr("class", "btn selectBtn");
         $(selectButton).attr("id", z );
         $(selectButton).html("Select");
@@ -211,8 +247,12 @@ function cardCreate(x, y, z, file, spot, healthID ){
 
             // Shows Attack and Hides Select Button
             $(playerCard).attr("id", "player");
+            // $(playerCard).attr("class", "card col-4 text-center pl-1 pr-1");
+            
             $(".selectBtn").hide();
-            $(".attackBtn").show();
+            $(".attackBtn").show(); 
+            // Hides Attack Button | Using Descendant Selector Syntax    
+            $( "#player .attackBtn" ).hide();           
 
             // Builds Competitor Array With Loop - Just Adding Name
             for ( var i = 0; i < saladbarWarriors.length; i++){
@@ -253,6 +293,7 @@ function cardCreate(x, y, z, file, spot, healthID ){
         var totalPlayerAttack = playerObject.attack + bonusAttack;
         console.log("Total Player Attack: " + totalPlayerAttack);
         playerObject.health -= targetObject.counterAttack;
+        
         // Increases Bonus For Each Attack
         bonusAttack += playerObject.attack;
 
@@ -265,7 +306,7 @@ function cardCreate(x, y, z, file, spot, healthID ){
         saladbarWarriors[playerArraySpot] = playerObject;
 
         // Update Message Box
-        $("#message").html(playerObject.name + " Attacks " + targetObject.name + " For " + totalPlayerAttack + "<br>What's You're Next Move?");
+        $("#message").html(playerObject.name + " Attacks " + targetObject.name + " For " + totalPlayerAttack + "<br>" + targetObject.name +" Counter Attacks For " + targetObject.counterAttack);
         
 
         // Update HTML
@@ -287,19 +328,22 @@ function cardCreate(x, y, z, file, spot, healthID ){
 
         // Check Win Conditions
         if (currentOpponents.length < 1){
-            $("#message").html("You Win!<br>You Are King ");
-            $("#saladbar").append(playerCard);
-            $(".attackBtn").hide();
+            $("#message").hide();
+            $(".card").remove();
+            $("#jumbotron").show();
             $("#resetGame").show();
             $("#playGame").hide();
+            $("#jumboMessage").html(playerObject.name + " Wins!<br>...But Something Is Brewing. Ready For More?");
         }
         
         // Check Loss Conditions
         if (playerObject.health < 1){
-            $("#message").html("Game Over <br> You're Dead Meat!")
-            $(".attackBtn").hide();
+            $("#message").hide();   
+            $(".card").remove();
+            $("#jumbotron").show();
             $("#resetGame").show();
             $("#playGame").hide();
+            $("#jumboMessage").html("Game Over <br> You're Dead Meat!")
         }
     });
 }
