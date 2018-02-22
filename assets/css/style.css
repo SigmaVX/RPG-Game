@@ -1,7 +1,7 @@
 
-a {
+footer a {
     text-decoration: none;
-    color: #333333;
+    color: #49392C;
 }
 
 p {
@@ -9,6 +9,7 @@ p {
     font-size: 14px;
     
 }
+
 footer {
     background-color: #98D2EB;
     color: #333333;
@@ -29,6 +30,10 @@ img {
     padding-top:5px;
 }
 
+.attack, .health, .counter {
+    color: #ffffff;
+}
+
 .btn {
     background-color: #98D2EB;
     color: #333333;
@@ -37,14 +42,16 @@ img {
 }
 
 .btn:hover {
-    background-color: #555555;
+    background-color: #777777;
     color: #98D2EB;
     margin-bottom: 5px;
     border: 2px solid #000000;
 }
 
 .attackBtn:hover {
-    background-color: red;
+    background-color:#B2B1CF;
+    color: black;
+    font-weight: 800;
 }
 
 .card {
@@ -53,6 +60,16 @@ img {
     background-color:#49392C;
     color: #B2B1CF;
     border: 2px solid #B2B1CF;
+}
+
+.icons, #infoIcon {
+    /* note in new font awesome you control the svg size with font size */
+    font-size: 75px;
+    color: #49392C;
+}
+
+.icons:hover, #infoIcon:hover {
+    color: #ffffff;
 }
 
 #content {
@@ -113,17 +130,26 @@ img {
     background-color: #B2B1CF;
     font-weight: 700;
     color: #49392C;
-    width: 80%;
+    width: 100%;
     padding-top: 5px;
     margin-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 5px;
+    /* position: fixed;
+    top: 110px;
+    z-index: 1; */
 }
+
+/* #saladBar{
+    position: relative;
+    top: 150px;
+    margin-bottom: 50px;
+} */
 
 #playGame, #resetGame, #infoButton, #gamereturn {
     font-weight: 700;
     text-transform: uppercase;
-    width: 250px;
+    /* width: 250px; */
     margin-top: 10px; 
 }
 

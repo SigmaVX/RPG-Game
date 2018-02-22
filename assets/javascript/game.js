@@ -47,17 +47,48 @@ var bonusAttack = 0;
 
 
 // Create Header Section
-var playAudio = $("<img>");
-    $(playAudio).attr("class", "icons img-fluid ");
-    $(playAudio).attr("id", "playAudio");
-    $(playAudio).attr("src", "./assets/images/play.png");
-    $("#header").append(playAudio);
+var spanOne = $("<span>");
+    $(spanOne).attr("class", "icons");
+    $(spanOne).attr("id", "playSpan");
+    $("#header").append(spanOne);
 
-var pauseAudio = $("<img>");
-    $(pauseAudio).attr("class", "icons img-fluid");
+var spanTwo = $("<span>");
+    $(spanTwo).attr("class", "icons");
+    $(spanTwo).attr("id", "pauseSpan");
+    $("#header").append(spanTwo);
+
+var spanThree = $("<a>");
+    $(spanThree).attr("class", "icons");
+    $(spanThree).attr("id", "infoSpan");
+    $(spanThree).attr("href", "info.html")
+    $("#header").append(spanThree);
+
+var playAudio = $("<i>");
+    $(playAudio).attr("class", "fas fa-play-circle");
+    $(playAudio).attr("id", "playAudio");
+    $("#playSpan").append(playAudio);
+
+var pauseAudio = $("<i>");
+    $(pauseAudio).attr("class", "fas fa-pause-circle");
     $(pauseAudio).attr("id", "pauseAudio");
-    $(pauseAudio).attr("src", "./assets/images/pause.png");
-    $("#header").append(pauseAudio);
+    $("#pauseSpan").append(pauseAudio);
+
+var infoIcon = $("<i>");
+    $(infoIcon).attr("class", "fas fa-question-circle");
+    $(infoIcon).attr("id", "infoIcon");
+    $("#infoSpan").append(infoIcon);
+
+// var playAudio = $("<img>");
+//     $(playAudio).attr("class", "icons img-fluid ");
+//     $(playAudio).attr("id", "playAudio");
+//     $(playAudio).attr("src", "./assets/images/play.png");
+//     $("#header").append(playAudio);
+
+// var pauseAudio = $("<img>");
+//     $(pauseAudio).attr("class", "icons img-fluid");
+//     $(pauseAudio).attr("id", "pauseAudio");
+//     $(pauseAudio).attr("src", "./assets/images/pause.png");
+//     $("#header").append(pauseAudio);
 
 var messageRow = $("<div>").html("");
     $(messageRow).attr("class", "col-12 text-center");
@@ -78,18 +109,18 @@ var jumboMessage = $("<h2>").html("A long time ago in a Salad Bar Far Far Away. 
     $(jumbotron).append(jumboMessage);
 
 var playGame = $("<div>").html("Play Game");
-    $(playGame).attr("class", "btn col-3");
+    $(playGame).attr("class", "btn col-md-4");
     $(playGame).attr("id", "playGame");
     $(jumbotron).append(playGame);    
 
 var resetGame = $("<div>").html("Reset Game");
-    $(resetGame).attr("class", "btn col-3");
+    $(resetGame).attr("class", "btn col-md-4");
     $(resetGame).attr("id", "resetGame");
     $(jumbotron).append(resetGame);
     $(resetGame).hide();
 
 var infoButton = $("<a>").html("Instructions");
-    $(infoButton).attr("class", "btn col-3 ml-2");
+    $(infoButton).attr("class", "btn col-md-4 ml-2");
     $(infoButton).attr("id", "infoButton");
     $(infoButton).attr("href", "info.html")
     $(jumbotron).append(infoButton);
@@ -149,7 +180,7 @@ var audio = $("<audio>").attr("src", "./assets/audio/Lunchlady Land.mp3")
     $(infobox).append(evenmoretext);
 
     var gamereturn = $("<a>").html("Return To Game");
-    $(gamereturn).attr("class", "btn");
+    $(gamereturn).attr("class", "btn col-md-4");
     $(gamereturn).attr("id", "gamereturn");
     $(gamereturn).attr("href", "./index.html");
     $(infobox).append(gamereturn);
@@ -184,7 +215,7 @@ function startGame(){
     // Create & Place Player Cards
     function cardCreate(x, y, z, file, spot, healthID ){
         var newDiv = $("<div>").html("");
-        $(newDiv).attr("class", "card col-2 text-center pl-1 pr-1");
+        $(newDiv).attr("class", "card col-md-2 col-5 text-center pl-1 pr-1");
         $(newDiv).attr("id", y );
         $(newDiv).attr("arraySpot", spot );
         $("#saladBar").append(newDiv);
@@ -222,6 +253,11 @@ function startGame(){
         $(selectButton).attr("id", z );
         $(selectButton).html("Select");
         $(newDiv).append(selectButton);
+
+    var meButton = $("<button>").attr("class", "btn meBtn");
+        $(meButton).html("My Warrior");
+        $(newDiv).append(meButton);
+        $(meButton).hide();
 }
 
     cardCreate(grinder, "grinder", "grinderBtn", "./assets/images/hoagie.jpg", 0, "grinderHealth");
@@ -245,14 +281,24 @@ function startGame(){
             playerObject = Object.assign({}, saladbarWarriors[playerArraySpot] );
             console.log(playerObject.name);
 
-            // Shows Attack and Hides Select Button
+            // Shows Attack, Shows Me Button, Hides Select Button, Hides Divs
             $(playerCard).attr("id", "player");
-            // $(playerCard).attr("class", "card col-4 text-center pl-1 pr-1");
-            
+    
             $(".selectBtn").hide();
             $(".attackBtn").show(); 
+            $(".attack").hide();
+            $(".counter").hide();
             // Hides Attack Button | Using Descendant Selector Syntax    
-            $( "#player .attackBtn" ).hide();           
+            $( "#player .attackBtn" ).hide();
+            $( "#player .meBtn" ).show();   
+
+            // Change Message
+            $("#message").html(playerObject.name + " Will Fight For Your Honnor.<br>Attack Your Foes!");
+
+            // Me Button Function
+            $(".meBtn").on("click", function() {
+                $("#message").html(playerObject.name + " Says:<br>'Let's Get To Fighting!'")
+            });
 
             // Builds Competitor Array With Loop - Just Adding Name
             for ( var i = 0; i < saladbarWarriors.length; i++){
