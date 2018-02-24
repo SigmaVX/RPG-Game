@@ -133,13 +133,13 @@ var audio = $("<audio>").attr("src", "./assets/audio/Lunchlady Land.mp3")
     $("#header").append(audio);
     // Atl Would Be - document.getElementById("audio").pause();
 
-    $("#playAudio").on("click", function() {
+    $("#playSpan").on("click", function() {
         $("audio").get(0).play();
         document.getElementById("audio").volume = 0.95;
         // Atl Would Be - document.getElementById("audio").play();
     });
 
-    $("#pauseAudio").on("click", function() {
+    $("#pauseSpan").on("click", function() {
         $("audio").get(0).pause();
     });
 
