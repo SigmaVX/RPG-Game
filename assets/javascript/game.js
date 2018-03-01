@@ -288,6 +288,7 @@ function startGame(){
             $(".attackBtn").show(); 
             $(".attack").hide();
             $(".counter").hide();
+            
             // Hides Attack Button | Using Descendant Selector Syntax    
             $( "#player .attackBtn" ).hide();
             $( "#player .meBtn" ).show();   
